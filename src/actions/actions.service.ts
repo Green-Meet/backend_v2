@@ -1,11 +1,12 @@
 import { Pool } from 'pg';
 import { Injectable } from '@nestjs/common';
+import { Action } from 'src/types/action.type';
 
 @Injectable()
 export class ActionService {
   Postgres = new Pool();
-  async getAllAction(): Promise<any> {
+  async getAllActions(): Promise<Action[]> {
     const actionsRows = await this.Postgres.query('SELECT * FROM actions');
-    return actionsRows.rows;
+    return actionsRows.rows as Action[];
   }
 }
