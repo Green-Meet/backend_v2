@@ -1,14 +1,20 @@
-import { ActionController } from '../actions.controller';
-import { ActionService } from '../actions.service';
+import { Test } from '@nestjs/testing';
+import { ActionsController } from '../actions.controller';
+import { ActionsService } from '../actions.service';
 import { actionToTest } from './dataset';
 
 describe('ActionsController', () => {
-  let actionsController: ActionController;
-  let actionsService: ActionService;
+  let actionsController: ActionsController;
+  let actionsService: ActionsService;
 
-  beforeEach(() => {
-    actionsService = new ActionService();
-    actionsController = new ActionController(actionsService);
+  beforeEach(async () => {
+    const moduleRef = await Test.createTestingModule({
+      controllers: [ActionsController],
+      providers: [ActionsService],
+    }).compile();
+
+    actionsService = moduleRef.get<ActionsService>(ActionsService);
+    actionsController = moduleRef.get<ActionsController>(ActionsController);
   });
 
   describe('findAll', () => {

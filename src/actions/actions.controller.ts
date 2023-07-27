@@ -1,10 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
-import { ActionService } from './actions.service';
+import { ActionsService } from './actions.service';
 import { Action } from 'src/types/action.type';
 
 @Controller('actions')
-export class ActionController {
-  constructor(private readonly actionService: ActionService) {}
+export class ActionsController {
+  constructor(private readonly actionService: ActionsService) {}
 
   @Get()
   async findAll(): Promise<Action[] | Error> {

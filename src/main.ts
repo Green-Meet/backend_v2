@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-const path = require('path');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 async function bootstrap() {
-  require('dotenv').config({
+  dotenv.config({
     path: './config/dev.env',
   });
   const app = await NestFactory.create(AppModule);
