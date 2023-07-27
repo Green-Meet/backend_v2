@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { ActionsController } from '../actions.controller';
-import { ActionsService } from '../actions.service';
-import { actionToTest } from './dataset';
+import { ActionsController } from './actions.controller';
+import { ActionsService } from './actions.service';
+import { actionToTest } from './test/dataset';
 
 describe('ActionsController', () => {
   let actionsController: ActionsController;
