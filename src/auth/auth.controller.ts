@@ -9,6 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { UserLoginDto } from 'src/dto/userLogin.dto';
 import { Response } from 'express';
+import { CreateUserDto } from 'src/dto/createUser.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -28,5 +29,25 @@ export class AuthController {
         secure: false,
       })
       .status(200);
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @Post('/')
+  public async signUp(
+    @Body() body: CreateUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    try {
+      const token = await this.authService.signIn(body);
+      response
+        .cookie('jwt', token, {
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
+          httpOnly: true,
+          secure: false,
+        })
+        .status(200);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

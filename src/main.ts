@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-const cors = require('cors');
-const dotenv = require('dotenv');
+import cors = require('cors');
+import dotenv = require('dotenv');
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {

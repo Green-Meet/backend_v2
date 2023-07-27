@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { Injectable, Req } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Action } from 'src/types/action.type';
 import { CreateActionDto } from 'src/dto/createAction.dto';
 

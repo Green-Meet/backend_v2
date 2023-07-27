@@ -18,11 +18,7 @@ export class ActionsController {
   }
 
   @Post()
-  public async CreateOne(
-    @Body() body: CreateActionDto,
-    @Req() request: Request,
-  ): Promise<void | Error> {
-    const organiserId = request;
+  public async CreateOne(@Body() body: CreateActionDto): Promise<void | Error> {
     try {
       await this.actionService.createAction(body);
     } catch (error) {
