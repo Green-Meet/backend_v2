@@ -22,10 +22,18 @@ export class UsersService {
     }
   }
 
-  public async findOne(userEmail: string): Promise<User | undefined> {
+  public async findByEmail(userEmail: string): Promise<User | undefined> {
     const rowsResponse = await this.Postgres.query(
       'SELECT * FROM users WHERE email=$1',
       [userEmail],
+    );
+    return rowsResponse.rows[0] as User;
+  }
+
+  public async findById(userId: string): Promise<User | undefined> {
+    const rowsResponse = await this.Postgres.query(
+      'SELECT * FROM USERS WHERE user_id=$1',
+      [userId],
     );
     return rowsResponse.rows[0] as User;
   }

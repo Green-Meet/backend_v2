@@ -16,7 +16,7 @@ export class AuthService {
   public async signIn(body: UserLoginDto): Promise<string | Error> {
     const { email, password } = body;
     try {
-      const user = await this.usersService.findOne(email);
+      const user = await this.usersService.findByEmail(email);
       if (!user) {
         throw new Error('Email invalide');
       }
@@ -24,7 +24,7 @@ export class AuthService {
       if (!isPasswordValid) {
         throw new Error('Password invalide');
       }
-      const payload = { sub: user.userId, username: user.email };
+      const payload = { sub: user.userId, email: user.email };
       return await this.jwtService.signAsync(payload);
     } catch (error) {
       throw new Error(error);
@@ -33,11 +33,7 @@ export class AuthService {
 
   public async signUp(body: CreateUserDto): Promise<string> {
     const user = await this.usersService.createUser(body);
-    return this.getToken(user?.userId);
-  }
-
-  public getToken(userId: number) {
-    const secret = process.env.SECRET;
-    return jwt.sign({ id: userId }, secret);
+    const payload = { sub: user.userId, email: user.email };
+    return await this.jwtService.signAsync(payload);
   }
 }
