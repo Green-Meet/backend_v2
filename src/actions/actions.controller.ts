@@ -18,7 +18,7 @@ export class ActionsController {
   }
 
   @Post()
-  public async CreateOne(@Body() body: CreateActionDto): Promise<void | Error> {
+  public async createOne(@Body() body: CreateActionDto): Promise<void | Error> {
     try {
       await this.actionService.createAction(body);
     } catch (error) {

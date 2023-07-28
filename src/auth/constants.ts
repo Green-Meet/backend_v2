@@ -1,3 +1,4 @@
+import { SetMetadata } from '@nestjs/common';
 import dotenv = require('dotenv');
 
 export const jwtConstants = {
@@ -5,3 +6,6 @@ export const jwtConstants = {
     path: './config/dev.env',
   }).parsed.SECRET,
 };
+
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
