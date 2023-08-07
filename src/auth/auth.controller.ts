@@ -7,9 +7,9 @@ import {
   Body,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserLoginDto } from 'src/dto/userLogin.dto';
+import { UserLoginDto } from '../dto/userLogin.dto';
 import { Response } from 'express';
-import { CreateUserDto } from 'src/dto/createUser.dto';
+import { CreateUserDto } from '../dto/createUser.dto';
 import { Public } from './constants';
 
 @Controller('auth')

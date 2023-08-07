@@ -1,10 +1,9 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from 'src/dto/createUser.dto';
-import { UserLoginDto } from 'src/dto/userLogin.dto';
-import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from '../dto/createUser.dto';
+import { UserLoginDto } from '../dto/userLogin.dto';
+import { UsersService } from '../users/users.service';
 import bcrypt = require('bcrypt');
-import jwt = require('jsonwebtoken');
 
 @Injectable()
 export class AuthService {
