@@ -40,4 +40,10 @@ export class ActionsService {
       ],
     );
   }
+
+  async deleteAction(actionId: string): Promise<void> {
+    await this.Postgres.query('DELETE FROM actions WHERE action_id=$1', [
+      actionId,
+    ]);
+  }
 }
