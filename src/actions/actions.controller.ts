@@ -7,11 +7,13 @@ import {
   Post,
   HttpCode,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { ActionsService } from './actions.service';
 import { Action } from '../types/action.type';
 import { CreateActionDto } from '../dto/createAction.dto';
 import { Public } from '../auth/constants';
+import { Request } from 'express';
 
 @Controller('actions')
 export class ActionsController {
@@ -30,8 +32,13 @@ export class ActionsController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  public async createOne(@Body() body: CreateActionDto): Promise<void | Error> {
+  public async createOne(
+    @Body() body: CreateActionDto,
+    @Req() request: Request,
+  ): Promise<void | Error> {
     try {
+      console.log(request);
+
       await this.actionService.createAction(body);
     } catch (error) {
       return new Error(error);

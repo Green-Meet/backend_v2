@@ -10,7 +10,12 @@ async function bootstrap() {
     path: './config/dev.env',
   });
   const app = await NestFactory.create(AppModule);
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    }),
+  );
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(8001);

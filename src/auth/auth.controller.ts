@@ -11,10 +11,14 @@ import { UserLoginDto } from '../dto/userLogin.dto';
 import { Response } from 'express';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { Public } from './constants';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Public()
   @HttpCode(HttpStatus.ACCEPTED)
@@ -24,13 +28,14 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const token = await this.authService.signIn(body);
+    const user = await this.usersService.findByEmail(body.email);
     response
       .cookie('jwt', token, {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
         httpOnly: true,
         secure: false,
       })
-      .status(200);
+      .send(user);
   }
 
   @Public()
