@@ -7,27 +7,30 @@ import { Action } from '../types/action.type';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('/profile')
-  public async getUserProfile(@Request() request: any): Promise<User> {
-    const userEmail = request.user.email;
-    return await this.usersService.findByEmail(userEmail);
+  @Get('/:userId/profile')
+  public async getUserProfile(@Param('userId') userId: number): Promise<User> {
+    return await this.usersService.findById(userId);
   }
 
-  @Get('/participation')
-  public async getUserJoinedActions() {
-    return null;
+  @Get('/:userId/participation')
+  public async getUserJoinedActions(
+    @Param('userId') userId: number,
+  ): Promise<Action[]> {
+    try {
+      return await this.usersService.findUserJoinedActions(userId);
+    } catch (error) {
+      throw new Error('Cannot find user created actions >>> ' + error);
+    }
   }
 
-  @Get('/creation/:userId')
+  @Get('/:userId/creation')
   public async getUserCreatedActions(
     @Param('userId') userId: number,
   ): Promise<Action[]> {
-    let actions: Action[];
     try {
       return await this.usersService.findUserCreatedActions(userId);
     } catch (error) {
       throw new Error('Cannot find user created actions >>> ' + error);
     }
-    return actions;
   }
 }

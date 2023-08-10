@@ -31,7 +31,7 @@ export class UsersService {
     return rowsResponse.rows[0] as User;
   }
 
-  public async findById(userId: string): Promise<User | undefined> {
+  public async findById(userId: number): Promise<User | undefined> {
     const rowsResponse = await this.Postgres.query(
       'SELECT * FROM USERS WHERE user_id=$1',
       [userId],
@@ -42,6 +42,14 @@ export class UsersService {
   public async findUserCreatedActions(userId: number) {
     const rowsResponse = await this.Postgres.query(
       'SELECT * FROM actions WHERE organiser_id=$1',
+      [userId],
+    );
+    return rowsResponse.rows as Action[];
+  }
+
+  public async findUserJoinedActions(userId: number) {
+    const rowsResponse = await this.Postgres.query(
+      'SELECT * FROM actions INNER JOIN participants ON participants.action_id = actions.action_id WHERE participants.user_id = $1',
       [userId],
     );
     return rowsResponse.rows as Action[];
