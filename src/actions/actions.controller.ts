@@ -37,9 +37,7 @@ export class ActionsController {
     @Req() request: Request,
   ): Promise<void | Error> {
     try {
-      console.log(request);
-
-      await this.actionService.createAction(body);
+      await this.actionService.createAction(body, request);
     } catch (error) {
       return new Error(error);
     }
