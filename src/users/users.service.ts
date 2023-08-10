@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
-import { CreateUserDto } from 'src/dto/createUser.dto';
-import { User } from 'src/types/user.type';
+import { CreateUserDto } from '../dto/createUser.dto';
+import { User } from '../types/user.type';
 import bcrypt = require('bcrypt');
+import { Action } from '../types/action.type';
 
 @Injectable()
 export class UsersService {
@@ -36,5 +37,13 @@ export class UsersService {
       [userId],
     );
     return rowsResponse.rows[0] as User;
+  }
+
+  public async findUserCreatedActions(userId: number) {
+    const rowsResponse = await this.Postgres.query(
+      'SELECT * FROM actions WHERE organiser_id=$1',
+      [userId],
+    );
+    return rowsResponse.rows as Action[];
   }
 }
