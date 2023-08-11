@@ -23,7 +23,7 @@ export class AuthService {
       if (!isPasswordValid) {
         throw new Error('Password invalide');
       }
-      const payload = { sub: user.userId, email: user.email };
+      const payload = { sub: user.user_id, email: user.email };
       return await this.jwtService.signAsync(payload);
     } catch (error) {
       throw new Error(error);
@@ -32,7 +32,7 @@ export class AuthService {
 
   public async signUp(body: CreateUserDto): Promise<string> {
     const user = await this.usersService.createUser(body);
-    const payload = { sub: user.userId, email: user.email };
+    const payload = { sub: user.user_id, email: user.email };
     return await this.jwtService.signAsync(payload);
   }
 }

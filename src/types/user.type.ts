@@ -1,10 +1,10 @@
 export type User = {
-  userId: number;
-  lastName: string;
-  firstName: string;
+  user_id: number;
+  last_name: string;
+  first_name: string;
   email: string;
   city: string;
-  isAdmin: boolean;
+  is_admin: boolean;
   password: string;
-  isDeleted: boolean;
+  is_deleted: boolean;
 };

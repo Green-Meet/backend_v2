@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Request } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '../types/user.type';
 import { Action } from '../types/action.type';
@@ -9,7 +9,11 @@ export class UsersController {
 
   @Get('/:userId/profile')
   public async getUserProfile(@Param('userId') userId: number): Promise<User> {
-    return await this.usersService.findById(userId);
+    try {
+      return await this.usersService.findById(userId);
+    } catch (error) {
+      throw new Error('Cannot find user >>> ' + error);
+    }
   }
 
   @Get('/:userId/participation')
@@ -19,7 +23,7 @@ export class UsersController {
     try {
       return await this.usersService.findUserJoinedActions(userId);
     } catch (error) {
-      throw new Error('Cannot find user created actions >>> ' + error);
+      throw new Error('Cannot find user joined actions >>> ' + error);
     }
   }
 

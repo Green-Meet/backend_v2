@@ -8,6 +8,7 @@ import {
   HttpCode,
   HttpStatus,
   Req,
+  Res,
 } from '@nestjs/common';
 import { ActionsService } from './actions.service';
 import { Action } from '../types/action.type';
@@ -50,6 +51,16 @@ export class ActionsController {
       await this.actionService.deleteAction(actionId);
     } catch (error) {
       return new Error(error);
+    }
+  }
+
+  @HttpCode(HttpStatus.ACCEPTED)
+  @Post('/:id/join')
+  public async joinOne(@Param('id') actionId: string, @Req() request: Request) {
+    try {
+      await this.actionService.joinAction(actionId, request);
+    } catch (error) {
+      throw new Error('Impossible de participer à une action >>> ' + error);
     }
   }
 }
