@@ -8,7 +8,6 @@ import {
   HttpCode,
   HttpStatus,
   Req,
-  Res,
 } from '@nestjs/common';
 import { ActionsService } from './actions.service';
 import { Action } from '../types/action.type';
@@ -31,7 +30,6 @@ export class ActionsController {
     }
   }
 
-  @HttpCode(HttpStatus.CREATED)
   @Post()
   public async createOne(
     @Body() body: CreateActionDto,

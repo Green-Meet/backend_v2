@@ -5,8 +5,8 @@ export type Action = {
   description: string;
   address: string;
   city: string;
-  begin_date: Date;
-  end_date: Date;
+  begin_date: string;
+  end_date: string;
   begin_time: string;
   end_time: string;
   organiser_id: number;

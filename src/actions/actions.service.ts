@@ -37,22 +37,32 @@ export class ActionsService {
       endTime,
       city,
     } = body;
-    const user = await this.usersService.findByEmail(request['user'].email);
-    await this.Postgres.query(
-      'INSERT INTO actions(title, type, description, address, begin_date, end_date, begin_time, end_time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-      [
-        title,
-        type,
-        description,
-        address,
-        beginDate,
-        endDate,
-        beginTime,
-        endTime,
-        user.user_id,
-        city.toLowerCase(),
-      ],
-    );
+    try {
+      const user = await this.usersService.findByEmail(request['user'].email);
+      await this.Postgres.query(
+        'INSERT INTO actions(title, type, description, address, begin_date, end_date, begin_time, end_time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+        [
+          title,
+          type,
+          description,
+          address,
+          beginDate,
+          endDate,
+          beginTime,
+          endTime,
+          user.user_id,
+          city.toLowerCase(),
+        ],
+      );
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Aucun utilisateur',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async joinAction(
