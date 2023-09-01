@@ -8,7 +8,6 @@ import {
   HttpCode,
   HttpStatus,
   Req,
-  Res,
 } from '@nestjs/common';
 import { ActionsService } from './actions.service';
 import { Action } from '../types/action.type';

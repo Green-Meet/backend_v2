@@ -1,29 +1,35 @@
 import { Test } from '@nestjs/testing';
-import { ActionsController } from './actions.controller';
+import * as request from 'supertest';
 import { ActionsService } from './actions.service';
 import { actionToTest } from './utils/dataset';
+import { INestApplication } from '@nestjs/common';
+import { ActionsController } from './actions.controller';
 
 describe('ActionsController', () => {
-  let actionsController: ActionsController;
-  let actionsService: ActionsService;
+  let app: INestApplication;
+  const actionsService = { getAllActions: () => actionToTest };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [ActionsController],
       providers: [ActionsService],
-    }).compile();
+    })
+      .overrideProvider(ActionsService)
+      .useValue(actionsService)
+      .compile();
 
-    actionsService = moduleRef.get<ActionsService>(ActionsService);
-    actionsController = moduleRef.get<ActionsController>(ActionsController);
+    app = moduleRef.createNestApplication();
+    await app.init();
   });
 
-  describe('findAll', () => {
-    it('should return an array of Actions', async () => {
-      const result = [actionToTest];
-      jest
-        .spyOn(actionsService, 'getAllActions')
-        .mockImplementation(() => result);
-      expect(await actionsController.findAll()).toBe(result);
-    });
+  it(`/GET actions`, async () => {
+    const response = await request(app.getHttpServer())
+      .get('/actions')
+      .expect(200);
+    expect(response.body).toStrictEqual(actionsService.getAllActions());
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });

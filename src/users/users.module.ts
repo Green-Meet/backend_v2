@@ -10,7 +10,7 @@ import { AuthGuard } from '../auth/auth.guard';
     UsersService,
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useExisting: AuthGuard,
     },
   ],
   exports: [UsersService],
